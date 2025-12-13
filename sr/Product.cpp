@@ -1,4 +1,6 @@
 #include "Product.hpp"
+#include "Order.hpp"
+#include "Supply.hpp"
 #include <string>
 #include <map>
 #include <iostream>
@@ -7,7 +9,7 @@ using namespace std;
 Product::Product(int id, string type, string description, int quantity) : id(id), type(type), description(description), quantity(quantity) {}
 
 
-void Product::createProduct(){
+void Product::createProduct() { 
     string type, description;
     int quantity;
     int id;
@@ -15,13 +17,13 @@ void Product::createProduct(){
     getline(cin, description);
     id = next_id++;
     quantity = 0;
-    products[id] =  make_unique<Product>(id, type, description,quantity);
+    products[id] =  make_shared<Product>(id, type, description,quantity);
 }
 
-Product* Product::findProduct(int product_id) {
+shared_ptr<Product> Product::findProduct(int product_id) {
     auto it = products.find(product_id);
     if (it != products.end()) {
-        return it->second.get();
+        return it->second;
     }
     return nullptr; 
 }
@@ -31,10 +33,10 @@ Product* Product::findProduct(int product_id) {
     }
     
 
-    Product* Product:: findProductByName(const string& name) {
+ shared_ptr<Product> Product:: findProductByName(const string& name) {
         for (const auto& pair :  products) {
             if (pair.second->getName() == name) {
-                return pair.second.get();
+                return pair.second;
             }
         }
         return nullptr;
@@ -49,4 +51,11 @@ void Product::displayAllProducts() {
 
 string Product::getDescription() const {
     return this->description;
+}
+
+void Product::decQuantity(shared_ptr<Addressing>, shared_ptr<Order>){
+
+}
+void Product::incQuantity(shared_ptr<Addressing>, shared_ptr<Supply>){
+
 }

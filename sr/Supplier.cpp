@@ -6,7 +6,7 @@
 #include <iostream>
 using namespace std;
 
-Supplier* Supplier::initSupplier() {
+void Supplier::initSupplier() {
 	string name_of_sup;
 	cin >> name_of_sup;
 	string type_of_product;
@@ -15,13 +15,6 @@ Supplier* Supplier::initSupplier() {
 	cin >> disc_of_prod;
 	string contact_info;
 	cin >> contact_info;
-	this->name = name_of_sup;
-	this->contact_info = contact_info;
-	Product prod;
-	prod.initProduct(type_of_product,disc_of_prod);
-	Suppliers.insert(make_pair(sup_id, make_unique<Supplier>()));
-	return this;
-}
-Supply* Supplier::createSupply() {
-
+	sup_id = next_sup_id++;
+	Suppliers[sup_id] = move(make_unique<Supplier>(sup_id, name_of_sup, type_of_product, disc_of_prod, contact_info));
 }

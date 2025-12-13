@@ -12,4 +12,8 @@ public:
     Employee(string name = "", string password = "", string role = "",int age = 0, int emp_id = 0);
     static Employee* loginEmployee(const string& targetRole);
     static map<string, tuple<string, string, int>> LoadEmployeeIntoFile();
+    void setShedule();
+    void hireEmployee();
+    void fireEmployee();
+
 };

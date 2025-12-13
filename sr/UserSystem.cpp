@@ -28,8 +28,7 @@ map<string, string> UserSystem::LoadUsersFromFile(const string& filename) {
     return users;
 }
 
-bool UserSystem::SaveUserIntoFile(const string& filename, const string& name,
-    const string& password, const string& role) {
+bool UserSystem::SaveUserIntoFile(const string& filename, const string& name,const string& password, const string& role) {
     ofstream file(filename, ios::app);
     if (!file.is_open()) {
         return false;

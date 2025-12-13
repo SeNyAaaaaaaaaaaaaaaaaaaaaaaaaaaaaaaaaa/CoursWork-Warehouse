@@ -1,9 +1,11 @@
 #include <string>
 #include <map>
+#include "Employee.hpp"
+#include "Client.hpp"
 using namespace std;
 
 class UserSystem {
-private:
+protected:
 	string name;
 	string role;
 	string password;
@@ -13,8 +15,10 @@ public:
 	string getName() const;
 	string getRole() const;
 	string getPassword() const;
-	virtual bool login();
-	virtual bool logout();
+	virtual shared_ptr<Employee> loginEmployee();
+	shared_ptr<Client> login();
+	virtual bool logoutEmployee();
+	bool logout();
 	virtual void showMenu();
 	static map<string, string> LoadUsersFromFile(const string& filename);
 	static bool SaveUserIntoFile(const string& filename, const string& name, const string& password, const string& role);

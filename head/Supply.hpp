@@ -13,9 +13,11 @@ private:
 	vector<unique_ptr<Supply>>supplies;
 public:
 	void setIdsupply();
-	void setStatus();
 	void setProducts();
-	void setStatus();
 	void setQuantity();
 	void setSuppliesId();
+	static shared_ptr<Supply> findSupplyById(const int& Id);
+    static shared_ptr<Supply> createSupply();
+	void setDateDelevery(const string& Date);
+    void setStatus(const string& Status);
 };

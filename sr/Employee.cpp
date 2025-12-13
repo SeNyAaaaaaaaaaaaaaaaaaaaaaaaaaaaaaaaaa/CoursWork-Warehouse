@@ -30,10 +30,10 @@ map<string, tuple<string, string, int>> Employee::LoadEmployeeIntoFile() {
 
 Employee* Employee::loginEmployee(const string& targetRole) {
     string username, password;
-    cout << "=== Вход " << targetRole << " ===" << endl;
-    cout << "Логин: ";
+    cout << "=== пїЅпїЅпїЅпїЅ " << targetRole << " ===" << endl;
+    cout << "пїЅпїЅпїЅпїЅпїЅ: ";
     cin >> username;
-    cout << "Пароль: ";
+    cout << "пїЅпїЅпїЅпїЅпїЅпїЅ: ";
     cin >> password;
 
     auto employees = loadEmployeeDatabase();
@@ -42,17 +42,17 @@ Employee* Employee::loginEmployee(const string& targetRole) {
     if (it != employees.end()) {
         auto& [emp_password, emp_role, emp_age] = it->second;
         if (emp_password == password && emp_role == targetRole) {
-            if (targetRole == "Администратор") {
+            if (targetRole == "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ") {
                 return new Administrator(username, password, emp_age, 0);
             }
-            else if (targetRole == "Менеджер") {
+            else if (targetRole == "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ") {
                 return new Manager(username, password, emp_age, 0);
             }
-            else if (targetRole == "Кладовщик") {
+            else if (targetRole == "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ") {
                 return new Storekeeper(username, password, emp_age, 0);
             }
         }
     }
-    cout << "Неверные данные или недостаточно прав!" << endl;
+    cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ!" << endl;
     return nullptr;
 }

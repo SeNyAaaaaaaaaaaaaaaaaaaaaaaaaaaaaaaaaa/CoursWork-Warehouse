@@ -5,15 +5,18 @@
 using namespace std;
 class Supplier {
 private:
-	int sup_id;
+    static int sup_id;
+	static int next_sup_id;
 	string name;
 	string disc_of_prod_sup;
 	string contact_info;
-	map<int, unique_ptr<Supplier>>Suppliers;
+	static map<int, unique_ptr<Supplier>>Suppliers;
 public:
-	Supplier* initSupplier();
+	static void initSupplier();
 	int getSupId() const;
 	string getName() const;
 	string getContact_Info() const;
-	Supply* createSupply();
+    Supplier* findSupplier(int supplier_id) const;
+    bool removeSupplier(int supplier_id);
+    void displayAllSuppliers() const;
 };
