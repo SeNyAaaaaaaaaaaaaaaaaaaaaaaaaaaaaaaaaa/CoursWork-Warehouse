@@ -1,29 +1,25 @@
 #include "Addressing.hpp"
 #include <iostream>
-using namespace std;
 
-shared_ptr<Addressing> Addressing::makeAdress() const {
-    string storage_a;
-    cin >> storage_a;
-    string ro;
-    cin >> ro;
-    string cel;
-    cin >> cel;
-    adress_index = next_adress_index++;
-    addres[adress_index] = make_shared<Addressing>(storage_a, ro, cel);
+Addressing::Addressing(string z, int r, int s, int c): zone(z), rack(r), shelf(s), cell(c) {}
+
+string Addressing::getFullAddress() const {
+    return zone + "-" + to_string(rack) + "-" + to_string(shelf) + "-" + to_string(cell);
 }
-string Addressing::getCell() const {
-    return this->cell;
+
+void Addressing::display() const {
+    cout << "Адрес хранения: " << getFullAddress() << endl;
 }
-string Addressing::getRow() const {
-    return this->row;
+
+string Addressing::getZone() const { 
+    return zone;
 }
-string Addressing::getStorage_Area() const {
-    return this->storage_area;
+int Addressing::getRack() const {
+    return rack; 
 }
-int Addressing::getIndex() const {
-    return this->adress_index;
+int Addressing::getShelf() const {
+    return shelf;
 }
-shared_ptr<Addressing> Addressing::getAddressing(const int& adress_index) const {
-    return addres[adress_index];
+int Addressing::getCell() const { 
+    return cell; 
 }

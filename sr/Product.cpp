@@ -1,61 +1,36 @@
 #include "Product.hpp"
-#include "Order.hpp"
-#include "Supply.hpp"
-#include <string>
-#include <map>
 #include <iostream>
-using namespace std;
 
-Product::Product(int id, string type, string description, int quantity) : id(id), type(type), description(description), quantity(quantity) {}
+Product::Product(string n, string cat, string u, double p, string spec) : name(n), category(cat), unit(u), price(p), specifications(spec) {}
 
-
-void Product::createProduct() { 
-    string type, description;
-    int quantity;
-    int id;
-    getline(cin,type);
-    getline(cin, description);
-    id = next_id++;
-    quantity = 0;
-    products[id] =  make_shared<Product>(id, type, description,quantity);
+void Product::display() const {
+    cout << "Наименование: " << name << endl;
+    cout << "Категория: " << category << endl;
+    cout << "Ед. измерения: " << unit << endl;
+    cout << "Цена: " << price << " руб." << endl;
+    cout << "Характеристики: " << specifications << endl;
 }
 
-shared_ptr<Product> Product::findProduct(int product_id) {
-    auto it = products.find(product_id);
-    if (it != products.end()) {
-        return it->second;
-    }
-    return nullptr; 
+string Product::getName() const {
+    return name;
 }
 
-     bool Product::removeProduct(int product_id) {
-        return products.erase(product_id) > 0;
-    }
-    
-
- shared_ptr<Product> Product:: findProductByName(const string& name) {
-        for (const auto& pair :  products) {
-            if (pair.second->getName() == name) {
-                return pair.second;
-            }
-        }
-        return nullptr;
-    }
-
-void Product::displayAllProducts() {
-    cout << "=== Р’РЎР• РџР РћР”РЈРљРўР« ===" << endl;
-    for (const auto& pair : products) {
-        cout << "ID: " << pair.first << " | " << pair.second->getName()  << " | " << pair.second->getDescription() << endl;
-    }
+string Product::getCategory() const {
+    return category;
 }
 
-string Product::getDescription() const {
-    return this->description;
+string Product::getUnit() const {
+    return unit;
 }
 
-void Product::decQuantity(shared_ptr<Addressing>, shared_ptr<Order>){
-
+double Product::getPrice() const {
+    return price;
 }
-void Product::incQuantity(shared_ptr<Addressing>, shared_ptr<Supply>){
 
+string Product::getSpecifications() const {
+    return specifications;
+}
+
+void Product::setPrice(double p) {
+    price = p;
 }

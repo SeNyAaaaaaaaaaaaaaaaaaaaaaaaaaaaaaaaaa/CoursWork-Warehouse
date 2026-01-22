@@ -1,93 +1,31 @@
 #include "Client.hpp"
 #include <iostream>
-#include <fstream>
-#include <limits>
 
-using namespace std;
+Client::Client(string uname, string pwd, string name, string company, string addr, string ph): User(uname, pwd, "client", name), companyName(company), address(addr), phone(ph) {}
 
-Client::Client(string name, string password) : UserSystem(name, password, "Client") {};
-
-bool Client::login() {
-    string username, password;
-    cout << "=== пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ===" << endl;
-    cout << "пїЅпїЅпїЅ: ";
-    cin >> username;
-    cout << "пїЅпїЅпїЅпїЅпїЅпїЅ: ";
-    cin >> password;
-
-    if (validateClient(username, password)) {
-        this->name = username;
-        this->password = password;
-        cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ! пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, " << name << "!" << endl;
-        return true;
-    }
-
-    cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ!" << endl;
-    return false;
+void Client::displayInfo() const {
+    cout << "================================" << endl;
+    cout << "Клиент: " << fullName << endl;
+    cout << "Компания: " << companyName << endl;
+    cout << "Адрес: " << address << endl;
+    cout << "Телефон: " << phone << endl;
+    cout << "Логин: " << username << endl;
+    cout << "================================" << endl;
 }
 
-bool Client::validateClient(const string& username, const string& password) {
-    auto clients = LoadUsersFromFile("Clients.txt");
-    auto it = clients.find(username);
-    return it != clients.end() && it->second == password;
+void Client::addOrder(int orderId) {
+    orderHistory.push_back(orderId);
 }
 
-void Client::showMenu() {
-    int choice;
-    do {
-        cout << "\n=== пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ===" << endl;
-        cout << "1. пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ" << endl;
-        cout << "2. пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ" << endl;
-        cout << "3. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.";
-        cout << "4. пїЅпїЅпїЅпїЅпїЅ" << endl;
-        cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: ";
-        cin >> choice;
-
-        switch (choice) {
-        case 1: makeOrder(); break;
-        case 2: viewOrderHistory(); break;
-            //case3/Warehouse
-        case 4: cout << "пїЅпїЅпїЅпїЅпїЅ..." << endl; break;
-        default: cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ!" << endl;
-        }
-    } while (choice != 4);
+string Client::getCompanyName() const { 
+    return companyName;
 }
-
-void Client::makeOrder() {
-    cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ..." << endl;
-    orderHistory.push_back("пїЅпїЅпїЅпїЅпїЅ #" + to_string(orderHistory.size() + 1));
-    cout << "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ!" << endl;
+string Client::getAddress() const {
+    return address;
 }
-
-void Client::viewOrderHistory() {
-    cout << "=== пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ===" << endl;
-    for (const auto& order : orderHistory) {
-        cout << "- " << order << endl;
-    }
+string Client::getPhone() const { 
+    return phone; 
 }
-
-Client* Client::registerClient() {
-    string name, password;
-    cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ" << endl;
-    cout << "пїЅпїЅпїЅ: ";
-    cin >> name;
-    cout << "пїЅпїЅпїЅпїЅпїЅпїЅ: ";
-    cin >> password;
-
-    if (SaveUserIntoFile("Clients.txt", name, password, "РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ")) {
-        cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ!" << endl;
-        return new Client(name, password);
-    }
-
-    cout << "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!" << endl;
-    return nullptr;
-}
-
-Client* Client::loginClient() {
-    Client* client = new Client();
-    if (client->login()) {
-        return client;
-    }
-    delete client;
-    return nullptr;
+vector<int> Client::getOrderHistory() const {
+    return orderHistory;
 }

@@ -1,58 +1,36 @@
 #include "Employee.hpp"
-#include <fstream>
-#include <map>
-using namespace std;
+#include <iostream>
 
-Employee::Employee(string name, string password, string role, int age, int emp_id) : UserSystem(name, password, role), age(age), emp_id(emp_id) {};
+Employee::Employee(string uname, string pwd, string name,string pos, double sal, Date hd): User(uname, pwd, "employee", name), position(pos), salary(sal), hireDate(hd) {}
 
-bool Employee::validateEmployee(const string& username, const string& password,const string& targetRole) {
-    auto employees = loadEmployeeDatabase();
-    auto it = employees.find(username);
-    if (it != employees.end()) {
-        auto& [emp_password, emp_role, emp_age] = it->second;
-        return emp_password == password && emp_role == targetRole;
-    }
-    return false;
+void Employee::displayInfo() const {
+    cout << "ФИО: " << fullName << endl;
+    cout << "Должность: " << position << endl;
+    cout << "Зарплата: " << salary << " руб." << endl;
+    cout << "Дата найма: "; hireDate.display(); cout << endl;
+    cout << "Логин: " << username << endl;
 }
 
-map<string, tuple<string, string, int>> Employee::LoadEmployeeIntoFile() {
-    map<string, tuple<string, string, int>> employees;
-    ifstream file("employees.txt");
-    string line;
-    while (getline(file, line)) {
-        string login, password, role, age_str;
-		line = login + "|" + password + "|" + role + "|" + age_str;
-        employees[login] = make_tuple(password, role, stoi(age_str));
-    }
-    file.close();
-    return employees;
+void Employee::setSalary(double sal) {
+    salary = sal;
 }
 
-Employee* Employee::loginEmployee(const string& targetRole) {
-    string username, password;
-    cout << "=== пїЅпїЅпїЅпїЅ " << targetRole << " ===" << endl;
-    cout << "пїЅпїЅпїЅпїЅпїЅ: ";
-    cin >> username;
-    cout << "пїЅпїЅпїЅпїЅпїЅпїЅ: ";
-    cin >> password;
+void Employee::setPosition(string pos) {
+    position = pos;
+}
 
-    auto employees = loadEmployeeDatabase();
-    auto it = employees.find(username);
+void Employee::addToSchedule(string day) {
+    schedule.push_back(day);
+}
 
-    if (it != employees.end()) {
-        auto& [emp_password, emp_role, emp_age] = it->second;
-        if (emp_password == password && emp_role == targetRole) {
-            if (targetRole == "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ") {
-                return new Administrator(username, password, emp_age, 0);
-            }
-            else if (targetRole == "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ") {
-                return new Manager(username, password, emp_age, 0);
-            }
-            else if (targetRole == "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ") {
-                return new Storekeeper(username, password, emp_age, 0);
-            }
-        }
-    }
-    cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ!" << endl;
-    return nullptr;
+double Employee::getSalary() const {
+    return salary;
+}
+
+string Employee::getPosition() const {
+    return position;
+}
+
+vector<string> Employee::getSchedule() const {
+    return schedule;
 }

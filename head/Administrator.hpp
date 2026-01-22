@@ -1,15 +1,25 @@
+#pragma once
 #include "Employee.hpp"
-#include "Manager.hpp"
-#include "StoreKeeper.hpp"
-#include <memory>
+#include "Supplier.hpp"
+#include "Supply.hpp"
 #include <vector>
-class Administrator: public Employee {
-    public:
-    static vector<shared_ptr<Manager>> AllManagers;
-    static vector<shared_ptr<StoreKeeper>> AllStoreKeeper;
-    private:
+#include <memory>
+using namespace std;
+
+class Administrator : public Employee {
+private:
+    vector<Supplier> suppliers;
+    vector<Supply> createdSupplies;
+
+public:
+    Administrator(string uname = "", string pwd = "", string name = "",string pos = "Admin", double sal = 0.0, Date hd = Date());
+
     void showMenu() override;
-    shared_ptr<Employee> loginEmployee() override;
-	bool logoutEmployee() override;
-    
+
+private:
+    void addSupplier();
+    void viewSuppliers();
+    void createSupply();
+    void viewCreatedSupplies();
+    void viewSupplierProducts();
 };

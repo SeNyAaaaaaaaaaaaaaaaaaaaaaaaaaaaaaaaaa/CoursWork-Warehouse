@@ -1,19 +1,41 @@
+#pragma once
 #include "Product.hpp"
 #include "Addressing.hpp"
-class Warehouse {
-    private:
-    using WrhMaper = map<shared_ptr<Addressing>, map<shared_ptr<Product>, int>>;
-    WrhMaper wrh;
-    int capacity;
+#include "Supply.hpp"
+#include "ClientOrder.hpp"
+#include "Date.hpp"
+#include <vector>
+#include <string>
+#include <utility>
+#include <memory>
+using namespace std;
 
-    public:
-    Warehouse() {};
-    Warehouse(int capacity): capacity(capacity) {};
-    void showAllProductWh() const;
-    void addProductOnWh(shared_ptr<Product> prod);
-    void processSupply();
-    void processOrder();
-    int getCapacity() const;
-    bool checkCapacity() const;
-    void eraseProductOfWh();
+class Warehouse {
+private:
+    struct WarehouseItem {
+        Product product;
+        int quantity;
+        Addressing address;
+        Date arrivalDate;
+    };
+
+    vector<WarehouseItem> inventory;
+    vector<Supply> pendingSupplies;
+    vector<ClientOrder> pendingOrders;
+    string name;
+    string address;
+
+public:
+    Warehouse(string n = "Главный склад", string addr = "");
+    void addFromSupply(Supply& supply);
+    bool shipFromOrder(ClientOrder& order);
+    void displayInventory() const;
+    void addPendingSupply(Supply supply);
+    void addPendingOrder(ClientOrder order);
+    vector<Supply>& getPendingSupplies();
+    vector<ClientOrder>& getPendingOrders();
+    vector<WarehouseItem> getInventory() const;
+    Product getProductByName(string name);
+    string getName() const;
+    string getAddress() const;
 };

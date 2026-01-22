@@ -1,22 +1,22 @@
-#include <string>
-#include <map>
+#pragma once
+#include "Product.hpp"
 #include <vector>
-#include "Supply.hpp"
+#include <string>
 using namespace std;
+
 class Supplier {
 private:
-    static int sup_id;
-	static int next_sup_id;
-	string name;
-	string disc_of_prod_sup;
-	string contact_info;
-	static map<int, unique_ptr<Supplier>>Suppliers;
+    string name;
+    string contactPerson;
+    string phone;
+    string email;
+    vector<Product> products;
+
 public:
-	static void initSupplier();
-	int getSupId() const;
-	string getName() const;
-	string getContact_Info() const;
-    Supplier* findSupplier(int supplier_id) const;
-    bool removeSupplier(int supplier_id);
-    void displayAllSuppliers() const;
+    Supplier(string n = "", string cp = "", string ph = "", string em = "");
+    void display() const;
+    void addProduct(Product product);
+    string getName() const;
+    vector<Product> getProducts() const;
+    Product getProduct(int index) const;
 };
